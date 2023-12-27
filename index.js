@@ -20,7 +20,7 @@ app.use("/uploads", express.static("uploads"));
 app.use(cors());
 app.use(express.json());
 app.get("/", (req, res) => {
-  res.send("Connected");
+  res.send("Welcome to FHCS Ambulance Service");
 
 });
 
