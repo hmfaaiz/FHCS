@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-
+const adminR=require("./route/adminR")
+const driverR=require("./route/driverR")
 
 const cors = require("cors");
 const dotenv=require("dotenv")
@@ -24,8 +25,9 @@ app.get("/", (req, res) => {
 
 });
 
-
+app.use("/api/fhcsambulance",adminR)
 
 app.listen(process.env.PORT, () => {
   console.log("server is running");
 });
+

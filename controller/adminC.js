@@ -1,5 +1,5 @@
 const validator = require("validator");
-const { GenerateToken, Authentication } = require("./security/authentication");
+const { GenerateToken, Authentication } = require("../security/authentication");
 const Admin = require("../model/admin");
 
 const AdminSignup = async (req, res) => {
@@ -99,6 +99,7 @@ const UpdateAdminProfile = async (req, res) => {
         const finduser = await Admin.findOne({ _id: user._id });
 
         if (finduser) {
+     
           if (req.body.email && validator.isEmail(req.body.email)) {
             finduser.email = req.body.email;
           }
