@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const adminR=require("./route/adminR")
 const driverR=require("./route/driverR")
+const ambulanceR=require("./route/ambulanceR")
 
 const cors = require("cors");
 const dotenv=require("dotenv")
@@ -26,6 +27,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/fhcsambulance",adminR)
+app.use("/api/fhcsambulance/driver",driverR)
+app.use("/api/fhcsambulance/vehicle",ambulanceR)
 
 app.listen(process.env.PORT, () => {
   console.log("server is running");
