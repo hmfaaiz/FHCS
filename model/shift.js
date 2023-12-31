@@ -10,7 +10,6 @@ const shiftSchema = new mongoose.Schema(
         ref: "driver"
       }],
    
-
   },
 
   { timestamps: true }
