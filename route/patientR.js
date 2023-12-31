@@ -5,7 +5,7 @@ const route = express.Router();
 
 const {
  
-    AddPatient} = require("../controller/patientC");
+    AddPatient,GetPatient,UpdatePatient} = require("../controller/patientC");
 
 
 
@@ -16,6 +16,14 @@ route.get("/", (req, res) => {
 
 route.post("/AddPatient",(req,res)=>{
     AddPatient(req, res);
+});
+
+route.get("/GetPatient",(req,res)=>{
+  GetPatient(req, res);
+});
+
+route.put("/UpdatePatient",(req,res)=>{
+  UpdatePatient(req, res);
 });
 
 
