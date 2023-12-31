@@ -6,13 +6,14 @@ const driverR=require("./route/driverR")
 const ambulanceR=require("./route/ambulanceR")
 const shiftR=require("./route/shiftR")
 const userR=require("./route/userR")
+const patientR=require("./route/patientR")
 
 const cors = require("cors");
 const dotenv=require("dotenv")
 
+
 dotenv.config()
 mongoose
-
   .connect(process.env.DB_Url)
 
   .then(() => {
@@ -33,6 +34,7 @@ app.use("/api/fhcsambulance/driver",driverR)
 app.use("/api/fhcsambulance/vehicle",ambulanceR)
 app.use("/api/fhcsambulance/shift",shiftR)
 app.use("/api/fhcsambulance/user",userR)
+app.use("/api/fhcsambulance/patient",patientR)
 
 app.listen(process.env.PORT, () => {
   console.log("server is running");
