@@ -31,16 +31,20 @@ const driverSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    driverNumber : {
+    driverNumber: {
       type: String,
       required: true,
       unique: true,
     },
-    
+    ambulanceId: {
+      type: String
+    },
+
     isAdmin: { type: Boolean, default: false },
-    
+
     profilePic: {
-      type: String},
+      type: String
+    },
   },
   { timestamps: true }
 );

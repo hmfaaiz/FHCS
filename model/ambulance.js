@@ -7,11 +7,12 @@ const ambulanceSchema = new mongoose.Schema(
     model: { type: String, required: true },
     color: { type: String, required: true },
     numberPlate:{ type: String, required: true,unique: true  },
-    driverId: [ {
+    status:{ type: String,default:"free" },
+    driverId:  {
         type: mongoose.Schema.Types.ObjectId,
         ref: "driver",
         default: null
-      }],
+      },
    
 
       isSoftDeleted: { type: Boolean,default:false},
