@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const adminR=require("./route/adminR")
 const driverR=require("./route/driverR")
+const driverManagementR=require("./route/driverManagementR")
 const ambulanceR=require("./route/ambulanceR")
 const shiftR=require("./route/shiftR")
 const userR=require("./route/userR")
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/fhcsambulance",adminR)
 app.use("/api/fhcsambulance/driver",driverR)
+app.use("/api/fhcsambulance/driverManagement",driverManagementR)
 app.use("/api/fhcsambulance/vehicle",ambulanceR)
 app.use("/api/fhcsambulance/shift",shiftR)
 app.use("/api/fhcsambulance/user",userR)

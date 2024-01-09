@@ -92,7 +92,11 @@ const GetDriverProfile = async (req, res) => {
         if(user.isAdmin && req.query.driverId){
           driverId = req.query.driverId;
         }
-        const findDriver = await Driver.findOne({ _id: driverId });
+        const findDriver = await Driver.findOne({ _id: driverId })
+        .populate({
+          path:"shiftId",
+          select:("shiftName shiftStartTime shiftEndTime")
+        });
         if (findDriver) {
           return res.status(200).json({
             status: 200,

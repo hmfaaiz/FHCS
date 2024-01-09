@@ -39,6 +39,12 @@ const driverSchema = new mongoose.Schema(
     ambulanceId: {
       type: String
     },
+    shiftId:  {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "shift",
+      default: null
+    },
+ 
 
     isAdmin: { type: Boolean, default: false },
 
