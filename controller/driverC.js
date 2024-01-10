@@ -87,44 +87,39 @@ const RegisterDriver = async (req, res) => {
 const GetDriverProfile = async (req, res) => {
   Authentication(req, res, async (user) => {
     try {
-      if ((user.isAdmin && req.query.driverId) || !user.isAdmin) {
-        let driverId =user._id;
-        if(user.isAdmin && req.query.driverId){
-          driverId = req.query.driverId;
-        }
-        const findDriver = await Driver.findOne({ _id: driverId })
+      const filter={}
+
+        if(user.isAdmin && req.body.driverId) filter._id = req.body.driverId;
+        if(user.isAdmin && req.body.firstName) filter.firstName = req.body.firstName;
+        if(user.isAdmin && req.body.lastName) filter.lastName = req.body.lastName;
+        if(user.isAdmin && req.body.email) filter.email = req.body.email;
+        if(user.isAdmin && req.body.driverNumber) filter.driverNumber = req.body.driverNumber;
+        if(!user.isAdmin ) filter._id = user._id;
+        if (req.body.shiftName) filterShiftName = req.body.shiftName;
+        
+        const findDriver = await Driver.find(filter)
         .populate({
           path:"shiftId",
+       
           select:("shiftName shiftStartTime shiftEndTime")
         });
         if (findDriver) {
+          let totalDriver=0
+          totalDriver = findDriver.length;
           return res.status(200).json({
             status: 200,
             message: "Driver Profile",
             data: findDriver,
+            totalDriver:totalDriver,
           });
+          
         } else {
           return res
             .status(404)
             .json({ status: 404, message: "Driver not found" });
         }
-      } else if (user.isAdmin) {
-        const findDrivers = await Driver.find();
-        let totalDrivers;
-        if (findDrivers && findDrivers.length > 0) {
-          totalDrivers = findDrivers.length;
-        }
-        return res.status(200).json({
-          status: 200,
-          message: "Drivers' profiles",
-          data: findDrivers,
-          totalDrivers: totalDrivers,
-        });
-      } else {
-        return res
-          .status(404)
-          .json({ status: 404, message: "Drivers not found" });
-      }
+  
+    
     } catch (error) {
       console.error("Error:", error);
       return res
