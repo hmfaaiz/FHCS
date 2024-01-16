@@ -67,7 +67,7 @@ const AddAmbulance = async (req, res) => {
 const GetAllAmbulances = async (req, res) => {
   Authentication(req, res, async (user) => {
     console.log("Ambulance", req.body);
-    try {
+    // try {
       const filter = {};
       if (req.body.registrationNumber)
         filter.registrationNumber = req.body.registrationNumber;
@@ -84,7 +84,7 @@ const GetAllAmbulances = async (req, res) => {
 
    
         const freeAmbulance = findAmbulance.filter(
-          (Ambulance) => !Ambulance.isSoftDeleted && Ambulance.driverId.length == 0
+          (Ambulance) => !Ambulance.isSoftDeleted && !Ambulance.driverId
         );
         const validAmbulance = findAmbulance.filter(
           (Ambulance) => !Ambulance.isSoftDeleted  );
@@ -101,11 +101,11 @@ const GetAllAmbulances = async (req, res) => {
       } else {
         return res.status(404).json({ status: 404, message: "Not found" });
       }
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ status: 500, message: "Internal error 2", error: error });
-    }
+    // } catch (error) {
+    //   return res
+    //     .status(500)
+    //     .json({ status: 500, message: "Internal error 2", error: error });
+    // }
   });
 };
 

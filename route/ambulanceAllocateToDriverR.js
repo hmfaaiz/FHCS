@@ -5,7 +5,7 @@ const route = express.Router();
 
 const {
  
-    AmbulanceToDriver} = require("../controller/ambulanceAllocation");
+    AmbulanceToDriver,AmbulanceUnassign} = require("../controller/ambulanceAllocation");
 
 
 
@@ -16,6 +16,10 @@ route.get("/", (req, res) => {
 
 route.post("/AmbulanceToDriver",(req,res)=>{
     AmbulanceToDriver(req, res);
+});
+
+route.put("/AmbulanceUnassign",(req,res)=>{
+  AmbulanceUnassign(req, res);
 });
 
 

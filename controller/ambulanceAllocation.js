@@ -21,7 +21,7 @@ const AmbulanceToDriver = async (req, res) => {
             findAmbulance.driverId=findDriver._id;
             findDriver.ambulanceId = req.body.ambulanceId;
             await findDriver.save();
-            findAmbulance.status=="Engaged"
+            findAmbulance.status="Engaged"
             await findAmbulance.save();
             return res.status(200).json({
               status: 200,
@@ -43,7 +43,7 @@ const AmbulanceToDriver = async (req, res) => {
         return res.status(403).json({
           status: 403,
           message:
-            "If you are admin,so you forgot to provide driver id/car Id or You are not allowed",
+            "If you are admin,so you forgot to provide driver id/ambulance Id or You are not allowed",
         });
       }
       } catch (error) {
@@ -55,7 +55,55 @@ const AmbulanceToDriver = async (req, res) => {
     });
   };
 
+  const AmbulanceUnassign = async (req, res) => {
+    Authentication(req, res, async (user) => {
+      // try {
+      if (user.isAdmin && req.body.driverId) {
+        const findDriver = await Driver.findOne({ _id: req.body.driverId });
+        if (findDriver && findDriver.ambulanceId) {
+          const findAmbulance = await Ambulance.findOne({ _id: findDriver.ambulanceId });
+          if (findAmbulance) {
+            findAmbulance.status = "Free";
+            findAmbulance.driverId=null;
+            findDriver.ambulanceId = null;
+
+            await findDriver.save();
+            await findAmbulance.save();
+  
+            return res.status(200).json({
+              status: 200,
+              message: "Ambulance Successfully unassigned",
+              data: findDriver,
+            });
+          }else{
+            return res.status(404).json({
+              status: 404,
+              message: "Ambulance not found"
+            });
+          }
+        
+        } else {
+          return res
+            .status(404)
+            .json({ status: 404, message: "Driver not found or not assigned yet" });
+        }
+      } else {
+        return res.status(403).json({
+          status: 403,
+          message:
+            "If you are admin,so you forgot to provide driver id or You are not allowed",
+        });
+      }
+      // } catch (error) {
+       
+      //   return res
+      //     .status(500)
+      //     .json({ status: 500, message: "Internal error", error });
+      // }
+    });
+  };
+
 
   
-  module.exports={AmbulanceToDriver}
+  module.exports={AmbulanceToDriver,AmbulanceUnassign}
   
