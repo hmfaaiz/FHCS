@@ -4,7 +4,7 @@ const route = express.Router();
 
 
 const {
-  AssignShift,} = require("../controller/driverManagementC");
+  AssignShift,} = require("../../../controller/driverManagementC");
 
 
 

@@ -1,5 +1,5 @@
 const validator = require("validator");
-const { GenerateToken, Authentication } = require("../security/authentication");
+const { GenerateToken, Authentication } = require("../../../security/authentication");
 const Admin = require("../model/admin");
 
 const AdminSignup = async (req, res) => {

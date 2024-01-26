@@ -1,5 +1,5 @@
 const validator = require("validator");
-const { GenerateToken, Authentication } = require("../security/authentication");
+const { GenerateToken, Authentication } = require("../../../security/authentication");
 const User = require("../model/user");
 const Patient = require("../model/patient");
 

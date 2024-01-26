@@ -1,10 +1,10 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const validator = require("validator");
-const { GenerateToken, Authentication } = require("../security/authentication");
+const { GenerateToken, Authentication } = require("../../../security/authentication");
 const Admin = require("../model/admin");
 const Ambulance = require("../model/ambulance");
-const Driver = require("../model/driver");
+const Driver = require("../../driver/model/driver");
 
 
 const AmbulanceToDriver = async (req, res) => {

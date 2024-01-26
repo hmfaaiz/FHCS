@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const fs = require("fs").promises;
 const validator = require("validator");
-const { GenerateToken, Authentication } = require("../security/authentication");
+const { GenerateToken, Authentication } = require("../../../security/authentication");
 const Ambulance = require("../model/ambulance");
 const path = require("path");
 

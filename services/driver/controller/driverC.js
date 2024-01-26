@@ -1,5 +1,5 @@
 const validator = require("validator");
-const { GenerateToken, Authentication } = require("../security/authentication");
+const { GenerateToken, Authentication } = require("../../../security/authentication");
 const Driver = require("../model/driver");
 
 
