@@ -1,6 +1,8 @@
 const express = require("express");
 const route = express.Router();
-
+const os=require("os")
+const dotenv=require("dotenv")
+dotenv.config()
 
 const {
   AdminSignup,
@@ -9,7 +11,10 @@ const {
 
   
 route.get("/", (req, res) => {
-  res.send("FHCS Ambulance Admin")
+    return res.send({
+      status: 200,
+      message: `You are interacted with admin Micro services at ${process.env.PORT} ${os.hostname()}`,
+    });
   });
   
   route.post("/signup", (req, res) => {
