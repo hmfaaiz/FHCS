@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const fs = require("fs").promises;
 const validator = require("validator");
-const { GenerateToken, Authentication } = require("../../../security/authentication");
+const { GenerateToken, Authentication } = require("../security/authentication");
 const Ambulance = require("../model/ambulance");
 const path = require("path");
 
@@ -67,7 +67,7 @@ const AddAmbulance = async (req, res) => {
 const GetAllAmbulances = async (req, res) => {
   Authentication(req, res, async (user) => {
     console.log("Ambulance", req.body);
-    // try {
+    try {
       const filter = {};
       if (req.body.registrationNumber)
         filter.registrationNumber = req.body.registrationNumber;
@@ -101,11 +101,11 @@ const GetAllAmbulances = async (req, res) => {
       } else {
         return res.status(404).json({ status: 404, message: "Not found" });
       }
-    // } catch (error) {
-    //   return res
-    //     .status(500)
-    //     .json({ status: 500, message: "Internal error 2", error: error });
-    // }
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ status: 500, message: "Internal error 2", error: error });
+    }
   });
 };
 
@@ -114,15 +114,14 @@ const GetAllAmbulances = async (req, res) => {
 const EditAmbulance = async (req, res) => {
   Authentication(req, res, async (user) => {
     try {
+      console.log("req body",req.body)
       if (user.isAdmin) {
-        if (req.body.AmbulanceId) {
+        if (req.query.ambulanceId) {
           const findAmbulance = await Ambulance.findOne({
-            _id: req.body.AmbulanceId,
+            _id: req.query.ambulanceId,
           });
           if (findAmbulance) {
-            if (req.body.registrationNumber) {
-              findAmbulance.registrationNumber = req.body.registrationNumber;
-            }
+      
             if (req.body.brand) {
               findAmbulance.brand = req.body.brand;
             }
@@ -142,6 +141,18 @@ const EditAmbulance = async (req, res) => {
                   .json({ status: 409, message: "Already exist" });
               } else {
                 findAmbulance.registrationNumber = req.body.registrationNumber;
+              }
+            }
+            if (req.body.numberPlate) {
+              const findnumberPlate = await Ambulance.findOne({
+                numberPlate: req.body.numberPlate,
+              });
+              if (findnumberPlate) {
+                return res
+                  .status(409)
+                  .json({ status: 409, message: "Already exist" });
+              } else {
+                findAmbulance.numberPlate = req.body.numberPlate;
               }
             }
             await findAmbulance.save();
@@ -176,9 +187,9 @@ const DeleteAmbulance = async (req, res) => {
   Authentication(req, res, async (user) => {
     try {
       if (user.isAdmin) {
-        if (req.body.AmbulanceId) {
+        if (req.query.ambulanceId) {
           const findAmbulance = await Ambulance.findOne({
-            _id: req.body.AmbulanceId,
+            _id: req.query.ambulanceId,
           });
 
           if (findAmbulance) {

@@ -14,7 +14,7 @@ const {
 
 route.get("/", (req, res) => {
   
-  res.send("FHCS Ambulance Ambulance")
+  res.send("FHCS Ambulance Service")
 });
 
 route.post("/AddAmbulance",(req,res)=>{
@@ -31,6 +31,7 @@ route.delete("/DeleteAmbulance", (req, res) => {
 
 
 route.put("/UpdateAmbulance",(req, res) => {
+  console.log("Updating")
   EditAmbulance(req, res);
 });
 
