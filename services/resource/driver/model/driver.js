@@ -37,7 +37,7 @@ const driverSchema = new mongoose.Schema(
       unique: true,
     },
     ambulanceId: {
-      type: String
+      type: String,default:null
     },
     shiftId:  {
       type: mongoose.Schema.Types.ObjectId,

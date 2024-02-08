@@ -1,15 +1,21 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const validator = require("validator");
-const { GenerateToken, Authentication } = require("../../../security/authentication");
-const Admin = require("../model/admin");
+const { GenerateToken, Authentication } = require("../../security/authentication");
 const Ambulance = require("../model/ambulance");
 const Driver = require("../../driver/model/driver");
+
+
+
+const fs = require("fs").promises;
+const path = require("path");
+
 
 
 const AmbulanceToDriver = async (req, res) => {
     Authentication(req, res, async (user) => {
       try {
+        console.log("Allocated")
       if (user.isAdmin && req.body.driverId && req.body.ambulanceId) {
         const findDriver = await Driver.findOne({ _id: req.body.driverId });
         if (findDriver && findDriver.ambulanceId == null) {

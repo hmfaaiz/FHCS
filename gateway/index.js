@@ -16,7 +16,7 @@ const server = gateway({
       target: "http://localhost:3001/",
     },
     {
-      prefix: "/driver",
+      prefix: "/resource",
       target: "http://localhost:3002/",
     },
     {
@@ -27,10 +27,7 @@ const server = gateway({
       prefix: "/patient",
       target: "http://driver:3004/",
     },
-    {
-      prefix: "/ambulance",
-      target: "http://localhost:3005/",
-    },
+
     {
       prefix: "/ride",
       target: "http://localhost:3006/",
