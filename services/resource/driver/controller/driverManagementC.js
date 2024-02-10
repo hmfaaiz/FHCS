@@ -17,6 +17,8 @@ const AssignShift = async (req, res) => {
             if(findDriver && findShift){
                 findDriver.shiftId=req.body.shiftId
                 await findDriver.save()
+                findShift.driverId.push(findDriver._id)
+                await findShift.save()
                 return res.status(200).json({
                     status: 200,
                     message: "Shift Successfully assigned",
@@ -41,5 +43,43 @@ const AssignShift = async (req, res) => {
     });
   };
 
+const UnAssignShift = async (req, res) => {
+    Authentication(req, res, async (user) => {
+      try {
+        if (
+      
+          req.body.driverId
+        ) {
+            const findDriver=await Driver.findOne({_id:req.body.driverId})
+            const findShift=await Shift.findOne({_id:req.body.shiftId})
+            if(findDriver && findShift){
+                findDriver.shiftId=null
+                await findDriver.save()
+                findShift.driverId.pull(findDriver._id)
+                await findShift.save()
+                return res.status(200).json({
+                    status: 200,
+                    message: "Shift Successfully unassigned",
+                  });
 
-module.exports={AssignShift}
+            }else{
+                return res.status(404).json({
+                    status: 404,
+                    message: "Driver or Shift not found",
+                  });
+            }
+         
+        } else {
+          return res.status(400).json({ status: 400, message: "Invalid data" });
+        }
+      
+      } catch (error) {
+        return res
+          .status(500)
+          .json({ status: 500, message: "Internal error", error });
+      }
+    });
+  };
+
+
+module.exports={AssignShift,UnAssignShift}

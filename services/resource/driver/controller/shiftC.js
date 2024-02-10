@@ -1,6 +1,5 @@
 const validator = require("validator");
 const { GenerateToken, Authentication } = require("../../security/authentication");
-const Admin = require("../model/admin");
 const Shift = require("../model/shift");
 
 //add new shift
@@ -56,9 +55,10 @@ const AddShift = async (req, res) => {
     Authentication(req, res, async (user) => {
       try {
         if (user.isAdmin) {
-          if (req.body.shiftId) {
+          if (req.query.shiftId) {
             const findShift = await Shift.findOne({
-              _id: req.body.shiftId,
+              _id: req.query.shiftId,
+
             });
             if (findShift) {
               if (req.body.shiftName) {
@@ -112,11 +112,13 @@ const AddShift = async (req, res) => {
   
           const findShift = await Shift.find(filter);
           if (findShift) {
+      
+            console.log("findShift",findShift.driverId)
             let totaldriver = 0;
-            if (totaldriver.length > 0) {
-              totaldriver = findShift.driverId;
-            }
-  
+            findShift.filter((b)=>{
+              totaldriver+=b.driverId.length
+            })
+     
             return res.status(200).json({
               status: 200,
               message: "Shift Successfully got",

@@ -4,7 +4,7 @@ const route = express.Router();
 
 
 const {
-  AssignShift,} = require("../../../controller/driverManagementC");
+  AssignShift,UnAssignShift} = require("../controller/driverManagementC");
 
 
 
@@ -14,6 +14,11 @@ route.get("/", (req, res) => {
 
 route.put("/Assignshift", (req, res) => {
   AssignShift(req, res);
+});
+
+
+route.put("/UnAssignShift", (req, res) => {
+  UnAssignShift(req, res);
 });
 
 

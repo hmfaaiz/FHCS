@@ -12,6 +12,8 @@ const cors = require("cors");
 const ambulanceR=require("./ambulance/route/ambulanceR")
 
 const driverR=require("./driver/route/driverR")
+const shiftR=require("./driver/route/shiftR")
+const driverManagementR=require("./driver/route/driverManagementR")
 const allocationR=require("./ambulance/route/ambulanceAllocateToDriverR")
 
 app.use("/uploads", express.static("uploads"));
@@ -23,6 +25,8 @@ app.use(express.json());
 app.use("/ambulance",ambulanceR)
 app.use("/driver",driverR)
 app.use("/allocation",allocationR)
+app.use("/shift",shiftR)
+app.use("/driverManagement",driverManagementR)
 
 
 app.listen(process.env.PORT, () => {
