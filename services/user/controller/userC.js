@@ -65,11 +65,12 @@ const UserSignin = async (req, res) => {
         if (finduser) {
    
             if (finduser.password == userPassword) {
-              const { email, name, isAdmin, ...other } = finduser;
+              const { email, name, isAdmin,userRole, ...other } = finduser;
               const forToken = {
                 email,
                 name,
                 isAdmin,
+                userRole,
                 _id: finduser._id,
               };
               await GenerateToken(forToken, res);

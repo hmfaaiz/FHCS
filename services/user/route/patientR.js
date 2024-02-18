@@ -18,7 +18,7 @@ route.post("/AddPatient",(req,res)=>{
     AddPatient(req, res);
 });
 
-route.get("/GetPatient",(req,res)=>{
+route.post("/GetPatient",(req,res)=>{
   GetPatient(req, res);
 });
 

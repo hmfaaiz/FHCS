@@ -6,13 +6,24 @@ const emergencyRideSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "driver",
     },
-    AmbulanceRegistrationNumberd: {
+    patientId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "patient",
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
+    AmbulanceRegistrationNumber: {
       type:String,
     },
 
     startLocation: { type: String,},
       
     endLocation: {type: String },
+    startKm:{type: Number },
+    endKm:{type: Number },
+    isDirectRouting:{type: Boolean },
      
     date: {
       type: Date,

@@ -26,12 +26,7 @@ const server = gateway({
     {
       prefix: "/patient",
       target: "http://driver:3004/",
-    },
-
-    {
-      prefix: "/ride",
-      target: "http://localhost:3006/",
-    },
+    }
   ],
 });
 
