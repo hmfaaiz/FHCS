@@ -14,8 +14,9 @@ const emergencyRideSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
-    AmbulanceRegistrationNumber: {
-      type:String,
+    ambulanceId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ambulance",
     },
 
     startLocation: { type: String,},

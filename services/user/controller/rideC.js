@@ -2,15 +2,15 @@ const validator = require("validator");
 const { GenerateToken, Authentication } = require("../security/authentication");
 const EmergencyRide = require("../model/emergencyRide");
 const Patient = require("../model/patient");
+const Ambulance = require("../model/ambulance");
 
-
-const HireAmbulance = async (req, res) => {
+const CreateRide = async (req, res) => {
     Authentication(req, res, async (user) => {
         try {
             if (
                 req.body.patientId &&
                 req.body.startLocation
-           
+
             ) {
                 const newEmergencyRide = new EmergencyRide({
                     patientId: req.body.patientId,
@@ -41,7 +41,7 @@ const HireAmbulance = async (req, res) => {
 };
 
 
-const GetHireAmbulance = async (req, res) => {
+const GetRide = async (req, res) => {
     Authentication(req, res, async (user) => {
         try {
             const filter = {};
@@ -59,7 +59,7 @@ const GetHireAmbulance = async (req, res) => {
 
             const findEmergencyRide = await EmergencyRide.find(filter);
             console.log("findEmergencyRide", findEmergencyRide)
-      
+
             if (findEmergencyRide && findEmergencyRide.length > 0) {
 
 
@@ -155,6 +155,41 @@ const GetHireAmbulance = async (req, res) => {
 //     });
 // };
 
+const AllocateRide = async (req, res) => {
+    Authentication(req, res, async (user) => {
+        try {
+            if (
+                req.body.rideId &&
+                req.body.ambulanceId
+
+            ) {
+
+                const findAmbulance = await Ambulance.findOne({ _id: req.body.ambulanceId });
+                const findEmergencyRide = await EmergencyRide.findOne({ _id: req.body.rideId });
+                if (findEmergencyRide && findAmbulance && findAmbulance.driverId) {
+                    findEmergencyRide.ambulanceId = req.body.ambulanceId
+                    findEmergencyRide.driverId = findAmbulance.driverId
+                    await findEmergencyRide.save()
+                    return res.status(200).json({
+                        status: 200,
+                        message: "Your request is received",
+                    });
+                }
 
 
-module.exports = { HireAmbulance, GetHireAmbulance}
+
+            } else {
+                return res.status(400).json({ status: 400, message: "Invalid data" });
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            return res
+                .status(500)
+                .json({ status: 500, message: "Internal error", error });
+        }
+    });
+};
+
+
+module.exports = { CreateRide, GetRide }

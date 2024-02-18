@@ -5,7 +5,7 @@ const route = express.Router();
 
 const {
  
-    HireAmbulance, GetHireAmbulance} = require("../controller/rideC");
+    CreateRide, GetRide} = require("../controller/rideC");
 
 
 
@@ -14,11 +14,11 @@ route.get("/", (req, res) => {
   res.send("FHCS Ambulance Ride")
 });
 
-route.post("/HireAmbulance",(req,res)=>{
+route.post("/CreateRide",(req,res)=>{
     HireAmbulance(req, res);
 });
 
-route.post("/GetHireAmbulance",(req,res)=>{
+route.post("/GetRide",(req,res)=>{
     GetHireAmbulance(req, res);
 });
 
