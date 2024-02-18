@@ -11,6 +11,7 @@ const cors = require("cors");
 
 const userR=require("./route/userR")
 const patientR=require("./route/patientR")
+const rideR=require("./route/rideR")
 
 
 
@@ -29,6 +30,7 @@ app.use(express.json());
 
 app.use("/activeuser",userR)
 app.use("/patient",patientR)
+app.use("/ride",rideR)
 
 
 

@@ -26,25 +26,17 @@ const emergencyRideSchema = new mongoose.Schema(
     isDirectRouting:{type: Boolean },
      
     date: {
-      type: Date,
-      required: true,
-    },
-    startTime: {
-      type: Date,
-      required: true,
-    },
-    endTime: {
-      type: Date,
-    },
+      type: Date,default:Date.now()},
+   
+
     amount: {
       type: Number,
-      required: true,
     },
    
     status: {
       type: String,
       enum: ["ongoing", "completed", "canceled", "pending"],
-      default: "ongoing",
+      default: "pending",
     },
 
    
