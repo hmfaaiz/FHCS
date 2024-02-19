@@ -5,7 +5,7 @@ const route = express.Router();
 
 const {
  
-    CreateRide, GetRide} = require("../controller/rideC");
+    CreateRide, GetRide,AllocateRide} = require("../controller/rideC");
 
 
 
@@ -15,11 +15,15 @@ route.get("/", (req, res) => {
 });
 
 route.post("/CreateRide",(req,res)=>{
-    HireAmbulance(req, res);
+    CreateRide(req, res);
 });
 
 route.post("/GetRide",(req,res)=>{
-    GetHireAmbulance(req, res);
+    GetRide(req, res);
+});
+
+route.post("/AllocateRide",(req,res)=>{
+    AllocateRide(req, res);
 });
 
 

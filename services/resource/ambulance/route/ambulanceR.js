@@ -26,6 +26,7 @@ route.post("/GetAllAmbulances", (req, res) => {
 });
 
 route.delete("/DeleteAmbulance", (req, res) => {
+  console.log("Get ambulance")
   DeleteAmbulance(req, res);
 });
 

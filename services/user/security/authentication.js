@@ -30,7 +30,7 @@ const Authentication = (req, res, next) => {
           return res.status(404).json({ message: "Token has expired" });
         } else {
      
-          next(user.user);
+          next(user.user,token);
         }
       } else {
         return res.status(404).json({ message: "Invalid token" });

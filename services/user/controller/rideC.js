@@ -156,37 +156,60 @@ const GetRide = async (req, res) => {
 // };
 
 const AllocateRide = async (req, res) => {
-    Authentication(req, res, async (user) => {
+    Authentication(req, res, async (user, token) => {
         try {
-            if(user.isAdmin){
+            if (user.isAdmin) {
+                let token1 = token
                 if (
                     req.body.rideId &&
                     req.body.ambulanceId
-    
+
                 ) {
-    
-                    const findAmbulance = await Ambulance.findOne({ _id: req.body.ambulanceId });
+                    const axios = require('axios');
+
+                    const apiUrl = 'http://localhost:3000/resource/ambulance/GetAllAmbulances';
+                    let findAmbulance = "";
+
+                    await axios.post(apiUrl, { AmbulanceId: req.body.ambulanceId }, { headers: { 'Authorization': `${token1}` } })
+                        .then(response => {
+                            findAmbulance = response.data.data[0]
+
+                        })
+                        .catch(error => {
+
+                            return res.status(404).json({
+                                status: 404,
+                                message: "Ambulance Not found",
+                            });
+                        });
+
+
+
                     const findEmergencyRide = await EmergencyRide.findOne({ _id: req.body.rideId });
                     if (findEmergencyRide && findAmbulance && findAmbulance.driverId) {
                         findEmergencyRide.ambulanceId = req.body.ambulanceId
                         findEmergencyRide.driverId = findAmbulance.driverId
+                        findEmergencyRide.status = "ongoing"
                         await findEmergencyRide.save()
                         return res.status(200).json({
                             status: 200,
-                            message: "Your request is received",
+                            message: "Ambulance is allocated for emergency",
+                            data:findEmergencyRide
                         });
                     }
-    
-    
-    
+                    else {
+                        return res.status(404).json({ status: 404, message: "Ride not found or ambulance is not attcahed with any driver" });
+                    }
+
+
                 } else {
                     return res.status(400).json({ status: 400, message: "Invalid data" });
                 }
 
-            }else{
+            } else {
                 return res.status(400).json({ status: 400, message: "You are not allowed" });
             }
-         
+
 
         } catch (error) {
             console.error("Error:", error);
@@ -198,4 +221,4 @@ const AllocateRide = async (req, res) => {
 };
 
 
-module.exports = { CreateRide, GetRide }
+module.exports = { CreateRide, GetRide, AllocateRide }
