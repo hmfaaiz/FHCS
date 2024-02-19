@@ -2,7 +2,7 @@ const validator = require("validator");
 const { GenerateToken, Authentication } = require("../security/authentication");
 const EmergencyRide = require("../model/emergencyRide");
 const Patient = require("../model/patient");
-const Ambulance = require("../model/ambulance");
+// const Ambulance = require("../model/ambulance");
 
 const CreateRide = async (req, res) => {
     Authentication(req, res, async (user) => {
@@ -158,29 +158,35 @@ const GetRide = async (req, res) => {
 const AllocateRide = async (req, res) => {
     Authentication(req, res, async (user) => {
         try {
-            if (
-                req.body.rideId &&
-                req.body.ambulanceId
-
-            ) {
-
-                const findAmbulance = await Ambulance.findOne({ _id: req.body.ambulanceId });
-                const findEmergencyRide = await EmergencyRide.findOne({ _id: req.body.rideId });
-                if (findEmergencyRide && findAmbulance && findAmbulance.driverId) {
-                    findEmergencyRide.ambulanceId = req.body.ambulanceId
-                    findEmergencyRide.driverId = findAmbulance.driverId
-                    await findEmergencyRide.save()
-                    return res.status(200).json({
-                        status: 200,
-                        message: "Your request is received",
-                    });
+            if(user.isAdmin){
+                if (
+                    req.body.rideId &&
+                    req.body.ambulanceId
+    
+                ) {
+    
+                    const findAmbulance = await Ambulance.findOne({ _id: req.body.ambulanceId });
+                    const findEmergencyRide = await EmergencyRide.findOne({ _id: req.body.rideId });
+                    if (findEmergencyRide && findAmbulance && findAmbulance.driverId) {
+                        findEmergencyRide.ambulanceId = req.body.ambulanceId
+                        findEmergencyRide.driverId = findAmbulance.driverId
+                        await findEmergencyRide.save()
+                        return res.status(200).json({
+                            status: 200,
+                            message: "Your request is received",
+                        });
+                    }
+    
+    
+    
+                } else {
+                    return res.status(400).json({ status: 400, message: "Invalid data" });
                 }
 
-
-
-            } else {
-                return res.status(400).json({ status: 400, message: "Invalid data" });
+            }else{
+                return res.status(400).json({ status: 400, message: "You are not allowed" });
             }
+         
 
         } catch (error) {
             console.error("Error:", error);
