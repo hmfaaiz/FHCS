@@ -37,19 +37,22 @@ const driverSchema = new mongoose.Schema(
       unique: true,
     },
     ambulanceId: {
-      type: String,default:null
+      type: String, default: null
     },
-    shiftId:  {
+    shiftId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "shift",
       default: null
     },
- 
+
 
     isAdmin: { type: Boolean, default: false },
 
     profilePic: {
       type: String
+    },
+    userRole: {
+      type: String, default: "driver"
     },
   },
   { timestamps: true }
