@@ -20,6 +20,7 @@ upload.fields([{ name: "profilePic", maxCount: 1 }]), (req, res) => {
 });
 
 route.get("/GetDriverProfile", (req, res) => {
+  console.log("profile")
   GetDriverProfile(req, res);
 });
 

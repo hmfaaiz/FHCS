@@ -264,13 +264,15 @@ const DriverSignin = async (req, res) => {
       if (finduser) {
         try {
           if (finduser.password == userPassword) {
-            const { email, firstName, isAdmin, ...other } = finduser;
+            const { email, firstName, isAdmin,userRole, ...other } = finduser;
             const forToken = {
               email,
               firstName,
               isAdmin,
+              userRole,
               _id: finduser._id,
             };
+            console.log("foreToken",forToken)
             await GenerateToken(forToken, res);
           } else {
             return res

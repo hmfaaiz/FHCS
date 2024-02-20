@@ -4,6 +4,9 @@ const EmergencyRide = require("../model/emergencyRide");
 const Patient = require("../model/patient");
 // const Ambulance = require("../model/ambulance");
 
+const dotenv=require("dotenv")
+dotenv.config()
+
 const CreateRide = async (req, res) => {
     Authentication(req, res, async (user) => {
         try {
@@ -43,6 +46,7 @@ const CreateRide = async (req, res) => {
 
 const GetRide = async (req, res) => {
     Authentication(req, res, async (user) => {
+        console.log("user",user)
         try {
             const filter = {};
 
@@ -54,11 +58,13 @@ const GetRide = async (req, res) => {
 
             if (user.userRole == "commonUser") {
                 filter.userId = user._id
+            }else if(user.userRole == "driver"){
+                filter.driverId = user._id
             }
 
 
             const findEmergencyRide = await EmergencyRide.find(filter);
-            console.log("findEmergencyRide", findEmergencyRide)
+            console.log("findEmergencyRide", filter)
 
             if (findEmergencyRide && findEmergencyRide.length > 0) {
 
@@ -167,7 +173,7 @@ const AllocateRide = async (req, res) => {
                 ) {
                     const axios = require('axios');
 
-                    const apiUrl = 'http://localhost:3000/resource/ambulance/GetAllAmbulances';
+                    const apiUrl = process.env.Base_Url+"resource/ambulance/GetAllAmbulances";
                     let findAmbulance = "";
 
                     await axios.post(apiUrl, { AmbulanceId: req.body.ambulanceId }, { headers: { 'Authorization': `${token1}` } })
